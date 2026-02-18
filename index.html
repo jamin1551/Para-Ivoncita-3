@@ -5,67 +5,174 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para mi Ivoncita ❤️</title>
     <style>
-        body { margin: 0; background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%); height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; color: white; font-family: sans-serif; text-align: center; }
-        #stars { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
-        .star { position: absolute; background: white; border-radius: 50%; opacity: 0.5; animation: twinkle var(--d) infinite ease-in-out; }
-        @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
-        .content { position: relative; z-index: 10; padding: 20px; }
-        h1 { font-size: 2.5rem; text-shadow: 0 0 15px rgba(255,255,255,0.5); }
-        #message { font-size: 1.5rem; font-style: italic; min-height: 80px; white-space: pre-wrap; margin-top: 20px; }
-        .btn { background: none; border: 2px solid white; color: white; padding: 12px 25px; border-radius: 30px; cursor: pointer; font-size: 1.1rem; margin-top: 20px; }
+        body {
+            margin: 0;
+            padding: 0;
+            background: #020617;
+            background: linear-gradient(to bottom, #020617 0%, #0f172a 100%);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-family: 'Georgia', serif;
+            text-align: center;
+        }
+
+        /* La Luna de Zoé */
+        .moon {
+            position: absolute;
+            top: 10%;
+            right: 15%;
+            width: 80px;
+            height: 80px;
+            background: #f1f5f9;
+            border-radius: 50%;
+            box-shadow: 0 0 40px 10px rgba(255, 255, 255, 0.3);
+            z-index: 1;
+        }
+
+        #stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: pulse var(--d) infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            padding: 20px;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            letter-spacing: 2px;
+        }
+
+        #lyrics {
+            font-size: 1.4rem;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+            height: 30px;
+            font-style: italic;
+        }
+
+        #love-letter {
+            font-size: 1.6rem;
+            line-height: 1.5;
+            color: #f8fafc;
+            min-height: 100px;
+            white-space: pre-wrap;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .btn-regalo {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.4s;
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-regalo:hover {
+            background: white;
+            color: #020617;
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
+
+    <div class="moon"></div>
     <div id="stars"></div>
-    <div class="content">
+
+    <div class="container">
         <h1>Para mi Ivoncita ❤️</h1>
-        <div id="message"></div>
-        <button class="btn" id="btn">Abrir regalo 🎁</button>
+        <div id="lyrics"></div>
+        <div id="love-letter"></div>
+        <br>
+        <button class="btn-regalo" id="playBtn">Abrir regalo 🎁</button>
     </div>
 
-    <audio id="track" src="musica.mp3"></audio>
+    <audio id="audio" src="musica.mp3" preload="auto"></audio>
 
     <script>
-        // Estrellas
-        const s = document.getElementById('stars');
-        for (let i = 0; i < 100; i++) {
-            const div = document.createElement('div');
-            div.className = 'star';
-            div.style.width = div.style.height = Math.random() * 3 + 'px';
-            div.style.top = Math.random() * 100 + '%';
-            div.style.left = Math.random() * 100 + '%';
-            div.style.setProperty('--d', Math.random() * 3 + 2 + 's');
-            s.appendChild(div);
+        // Crear estrellas más artísticas
+        const starContainer = document.getElementById('stars');
+        for (let i = 0; i < 150; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 3;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.setProperty('--d', Math.random() * 4 + 2 + 's');
+            starContainer.appendChild(star);
         }
 
-        const audio = document.getElementById('track');
-        const btn = document.getElementById('btn');
-        const msg = document.getElementById('message');
-        const txt = "Y cuando, te me acercas.... \n\n Te extraño mi amorcito. Eres la Luna que acelera mi corazón.";
+        const audio = document.getElementById('audio');
+        const btn = document.getElementById('playBtn');
+        const lyricsDiv = document.getElementById('lyrics');
+        const letterDiv = document.getElementById('love-letter');
 
-        btn.onclick = () => {
+        const phrase1 = "Y cuando, te me acercas....";
+        const finalMessage = "Te extraño mi amorcito.\nEres la Luna que acelera mi corazón.";
+
+        btn.addEventListener('click', () => {
             btn.style.display = 'none';
-            audio.currentTime = 78; // Empieza en 1:18
-            audio.play().catch(e => console.log("Error al reproducir: ", e));
             
-            let i = 0;
-            function type() {
-                if (i < txt.length) {
-                    msg.innerHTML += txt.charAt(i);
-                    i++;
-                    setTimeout(type, 100);
+            // Iniciar audio
+            audio.play().catch(error => {
+                console.log("El navegador bloqueó el audio: ", error);
+            });
+
+            // Animación de la letra de la canción
+            let j = 0;
+            function typeLyrics() {
+                if (j < phrase1.length) {
+                    lyricsDiv.innerHTML += phrase1.charAt(j);
+                    j++;
+                    setTimeout(typeLyrics, 100);
+                } else {
+                    // Después de la letra, aparece la carta
+                    setTimeout(typeLetter, 1000);
                 }
             }
-            type();
 
-            // Desvanecer a los 33 segundos de haber empezado (1:51 total)
-            setTimeout(() => {
-                let f = setInterval(() => {
-                    if (audio.volume > 0.1) audio.volume -= 0.1;
-                    else { audio.pause(); clearInterval(f); }
-                }, 200);
-            }, 33000);
-        };
+            // Animación de la carta de amor
+            let k = 0;
+            function typeLetter() {
+                if (k < finalMessage.length) {
+                    letterDiv.innerHTML += finalMessage.charAt(k);
+                    k++;
+                    setTimeout(typeLetter, 120);
+                }
+            }
+
+            typeLyrics();
+        });
     </script>
 </body>
 </html>
