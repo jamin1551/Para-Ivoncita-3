@@ -5,134 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para mi Ivoncita ❤️</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-        }
-
-        #stars-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.5;
-            animation: twinkle var(--duration) infinite ease-in-out;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-
-        .content {
-            position: relative;
-            z-index: 10;
-            padding: 20px;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            text-shadow: 0 0 15px rgba(255,255,255,0.5);
-        }
-
-        #message {
-            font-size: 1.5rem;
-            font-style: italic;
-            min-height: 80px;
-        }
-
-        .play-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid white;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-top: 20px;
-            transition: 0.3s;
-        }
-
-        .play-btn:hover { background: white; color: #1B2735; }
+        body { margin: 0; background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%); height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; color: white; font-family: sans-serif; text-align: center; }
+        #stars { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .star { position: absolute; background: white; border-radius: 50%; opacity: 0.5; animation: twinkle var(--d) infinite ease-in-out; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
+        .content { position: relative; z-index: 10; padding: 20px; }
+        h1 { font-size: 2.5rem; text-shadow: 0 0 15px rgba(255,255,255,0.5); }
+        #message { font-size: 1.5rem; font-style: italic; min-height: 80px; white-space: pre-wrap; margin-top: 20px; }
+        .btn { background: none; border: 2px solid white; color: white; padding: 12px 25px; border-radius: 30px; cursor: pointer; font-size: 1.1rem; margin-top: 20px; }
     </style>
 </head>
 <body>
-
-    <div id="stars-container"></div>
-
+    <div id="stars"></div>
     <div class="content">
         <h1>Para mi Ivoncita ❤️</h1>
         <div id="message"></div>
-        <button class="play-btn" id="startBtn">Abrir regalo 🎁</button>
+        <button class="btn" id="btn">Abrir regalo 🎁</button>
     </div>
 
-    <audio id="loveSong" src="musica.mp3"></audio>
+    <audio id="track" src="musica.mp3"></audio>
 
     <script>
         // Estrellas
-        const container = document.getElementById('stars-container');
-        for (let i = 0; i < 150; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            const size = Math.random() * 2 + 'px';
-            star.style.width = size; star.style.height = size;
-            star.style.top = Math.random() * 100 + '%';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
-            container.appendChild(star);
+        const s = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const div = document.createElement('div');
+            div.className = 'star';
+            div.style.width = div.style.height = Math.random() * 3 + 'px';
+            div.style.top = Math.random() * 100 + '%';
+            div.style.left = Math.random() * 100 + '%';
+            div.style.setProperty('--d', Math.random() * 3 + 2 + 's');
+            s.appendChild(div);
         }
 
-        const audio = document.getElementById('loveSong');
-        const btn = document.getElementById('startBtn');
-        const messageDiv = document.getElementById('message');
-        const text = "Y cuando, te me acercas.... \n\n Te extraño mi amorcito. Eres la Luna que acelera mi corazón.";
+        const audio = document.getElementById('track');
+        const btn = document.getElementById('btn');
+        const msg = document.getElementById('message');
+        const txt = "Y cuando, te me acercas.... \n\n Te extraño mi amorcito. Eres la Luna que acelera mi corazón.";
 
-        btn.addEventListener('click', () => {
+        btn.onclick = () => {
             btn.style.display = 'none';
             audio.currentTime = 78; // Empieza en 1:18
-            audio.play();
+            audio.play().catch(e => console.log("Error al reproducir: ", e));
             
-            // Efecto escribir
             let i = 0;
             function type() {
-                if (i < text.length) {
-                    messageDiv.innerHTML += text.charAt(i);
+                if (i < txt.length) {
+                    msg.innerHTML += txt.charAt(i);
                     i++;
                     setTimeout(type, 100);
                 }
             }
             type();
 
-            // Fade out y pausa a los 1:51 (33 segundos después del inicio en 1:18)
+            // Desvanecer a los 33 segundos de haber empezado (1:51 total)
             setTimeout(() => {
-                let fade = setInterval(() => {
-                    if (audio.volume > 0.1) {
-                        audio.volume -= 0.1;
-                    } else {
-                        audio.pause();
-                        clearInterval(fade);
-                    }
+                let f = setInterval(() => {
+                    if (audio.volume > 0.1) audio.volume -= 0.1;
+                    else { audio.pause(); clearInterval(f); }
                 }, 200);
-            , 33000); // 33 segundos de duración total
-        });
+            }, 33000);
+        };
     </script>
 </body>
 </html>
